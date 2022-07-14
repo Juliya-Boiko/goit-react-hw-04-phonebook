@@ -36,39 +36,41 @@ export class MyForm extends Component {
     }
 
     render() {
-        return  <Formik
-                    initialValues={this.state}
-                    validationSchema={mySchema}
-                    onSubmit={this.hadleSubmit}
-                    >
-                    {props => (
-                        <ContactForm>
-                            <ContactLabel>
-                                Name:
-                                <ContactField
-                                    type="text"
-                                    name="name"
-                                    onChange={props.handleChange}
-                                    value={props.values.name}
-                                />
-                                <ErrorMessage name="name" render={msg => <ErrorText>{msg}</ErrorText>}/>
-                            </ContactLabel>
-                            <ContactLabel>
-                                Number:
-                                <ContactField
-                                    type="tel"
-                                    name="number"
-                                    onChange={props.handleChange}
-                                    value={props.values.number}
-                                />
-                                <ErrorMessage name="number" render={msg => <ErrorText>{msg}</ErrorText>}/>
-                            </ContactLabel>
-                            <PrimaryButton type="submit">
-                                <PrimaryButtonIcon />
-                                Add contact
-                            </PrimaryButton>
-                        </ContactForm>
-                    )}
-                </Formik>
+        return (
+            <Formik
+                initialValues={this.state}
+                validationSchema={mySchema}
+                onSubmit={this.hadleSubmit}
+            >
+                {props => (
+                    <ContactForm>
+                        <ContactLabel>
+                            Name:
+                            <ContactField
+                                type="text"
+                                name="name"
+                                onChange={props.handleChange}
+                                value={props.values.name}
+                            />
+                            <ErrorMessage name="name" render={msg => <ErrorText>{msg}</ErrorText>} />
+                        </ContactLabel>
+                        <ContactLabel>
+                            Number:
+                            <ContactField
+                                type="tel"
+                                name="number"
+                                onChange={props.handleChange}
+                                value={props.values.number}
+                            />
+                            <ErrorMessage name="number" render={msg => <ErrorText>{msg}</ErrorText>} />
+                        </ContactLabel>
+                        <PrimaryButton type="submit">
+                            <PrimaryButtonIcon />
+                            Add contact
+                        </PrimaryButton>
+                    </ContactForm>
+                )}
+            </Formik>
+        );
     }
 }
