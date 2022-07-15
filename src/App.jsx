@@ -10,27 +10,33 @@ const LS_KEY = 'contacts';
 
 export function App() {
   const [contacts, setContacts] = useState(() => {
-    return JSON.parse(window.localStorage.getItem(LS_KEY) ?? [])
+    return JSON.parse(window.localStorage.getItem(LS_KEY) ?? []);
   });
   const [filter, setFilter] = useState('');
 
-  useEffect(() => { localStorage.setItem(LS_KEY, JSON.stringify(contacts)) }, [contacts]);
+  useEffect(() => {
+    localStorage.setItem(LS_KEY, JSON.stringify(contacts));
+  }, [contacts]);
 
-  const validateContact = (data) => {
-      const normalizedValue = data.name.toLowerCase();
-      const result = contacts.find((item) => item.name.toLowerCase().includes(normalizedValue));
-      return result;
-  }
+  const validateContact = data => {
+    const normalizedValue = data.name.toLowerCase();
+    const result = contacts.find(item =>
+      item.name.toLowerCase().includes(normalizedValue)
+    );
+    return result;
+  };
 
-  const handlerFilter = (evt) => {
+  const handlerFilter = evt => {
     setFilter(evt.target.value);
-  }
+  };
 
-  const deleteContact = (contactId) => {
-    setContacts(prevContacts => prevContacts.filter((contact) => contact.id !== contactId));
-  }
+  const deleteContact = contactId => {
+    setContacts(prevContacts =>
+      prevContacts.filter(contact => contact.id !== contactId)
+    );
+  };
 
-  const handlerSubmit = (data) => {
+  const handlerSubmit = data => {
     if (validateContact(data)) {
       alert(`${data.name} already exist`);
       return;
@@ -38,7 +44,7 @@ export function App() {
       setContacts(prevContacts => [...prevContacts, data]);
       localStorage.setItem(LS_KEY, contacts);
     }
-  }
+  };
 
   return (
     <Container>
@@ -54,74 +60,3 @@ export function App() {
     </Container>
   );
 }
-
-// export class App extends Component {
-//   state = {
-//     contacts: [],
-//     filter: '',
-//   }
-
-//   componentDidMount() {
-//     const contacts = localStorage.getItem(LS_KEY);
-//     const parsedContacts = JSON.parse(contacts);
-//     if (parsedContacts) {
-//       this.setState({
-//         contacts: parsedContacts,
-//     })
-//     }
-//   }
-
-//   componentDidUpdate(_, prevState) {
-//     if (this.state.contacts !== prevState.contacts) {
-//       localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
-//     }
-//   }
-
-//   validateContact = (data) => {
-//       const normalizedValue = data.name.toLowerCase();
-//       const result = this.state.contacts.find((item) => item.name.toLowerCase().includes(normalizedValue));
-//       return result;
-//   }
-
-//   handlerFilter = (evt) => {
-//     this.setState({
-//     filter: evt.target.value,
-//     })
-//   }
-
-//   deleteContact = (contactId) => {
-//     this.setState((prevState) => {
-//       return {
-//         contacts: prevState.contacts.filter((contact) => contact.id !== contactId)
-//       }
-//     })
-//   }
-
-//   handlerSubmit = (data) => {
-//     if (this.validateContact(data)) {
-//       alert(`${data.name} already exist`);
-//     } else {
-//       this.setState((prevState) => {
-//         return {
-//           contacts: [...prevState.contacts, data],
-//         }
-//       })
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <Container>
-//         <Title>Contact App</Title>
-//         <MyForm onSubmit={this.handlerSubmit} />
-//         <Title>Search by name</Title>
-//         <Filter value={this.state.filter} onChange={this.handlerFilter} />
-//         <ContactsList
-//           value={this.state.filter}
-//           options={this.state.contacts}
-//           onClickDelete={this.deleteContact}
-//         />
-//       </Container>
-//     );
-//   }
-// }
