@@ -1,5 +1,6 @@
 import 'modern-normalize';
 import { useState, useEffect } from 'react';
+import { getStorageData } from 'storageUtils/getStorageData';
 import { Container } from './components/common/Container.styled';
 import { Title } from 'components/common/Title.styled';
 import { MyForm } from './components/Form/Form';
@@ -9,10 +10,12 @@ import { ContactsList } from './components/ContactsList/ContactsList';
 const LS_KEY = 'contacts';
 
 export function App() {
-  const [contacts, setContacts] = useState(() => {
-    return JSON.parse(window.localStorage.getItem(LS_KEY) ?? []);
-  });
+  const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    setContacts(getStorageData(LS_KEY));
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(LS_KEY, JSON.stringify(contacts));
@@ -60,3 +63,7 @@ export function App() {
     </Container>
   );
 }
+
+// const [contacts, setContacts] = useState(() => {
+//   return JSON.parse(window.localStorage.getItem(LS_KEY) ?? []);
+// });
